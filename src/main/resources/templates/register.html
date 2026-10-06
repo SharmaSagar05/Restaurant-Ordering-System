@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-body">
+<section class="auth-card">
+    <h1>Create account</h1>
+    <p class="muted">Customers can browse the menu and place orders.</p>
+    <form th:action="@{/register}" th:object="${registerRequest}" method="post" class="stack">
+        <label>Name
+            <input type="text" th:field="*{name}" required>
+            <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </label>
+        <label>Email
+            <input type="email" th:field="*{email}" required>
+            <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </label>
+        <label>Password
+            <input type="password" th:field="*{password}" required minlength="8">
+            <span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </label>
+        <button type="submit" class="primary">Register</button>
+    </form>
+    <p>Already registered? <a th:href="@{/login}">Login</a></p>
+</section>
+</body>
+</html>

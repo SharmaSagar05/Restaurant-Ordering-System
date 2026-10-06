@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order details · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: topbar}"></header>
+<main class="page">
+    <div th:replace="~{fragments :: flash}"></div>
+    <h1>Order #<span th:text="${order.id}">1</span></h1>
+    <p>
+        Customer: <strong th:text="${order.customerName}">Name</strong>
+        · Status: <span class="badge" th:text="${order.status}">PENDING</span>
+        · Payment: <span th:text="${order.paymentStatus}">PENDING</span>
+    </p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Unit price</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${order.items}">
+            <td th:text="${item.menuItemName}">Pizza</td>
+            <td th:text="${item.quantity}">2</td>
+            <td>₹<span th:text="${item.unitPrice}">250</span></td>
+            <td>₹<span th:text="${item.subtotal}">500</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="total-line">Total: ₹<strong th:text="${order.totalPrice}">650</strong></p>
+
+    <form sec:authorize="hasAnyRole('ADMIN','STAFF')" th:action="@{/orders/{id}/status(id=${order.id})}" method="post" class="inline-form">
+        <select name="status">
+            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"
+                    th:selected="${status == order.status}"></option>
+        </select>
+        <button type="submit">Update status</button>
+    </form>
+
+    <form th:if="${cancellable}" th:action="@{/orders/{id}/cancel(id=${order.id})}" method="post">
+        <button type="submit" class="danger">Cancel order</button>
+    </form>
+</main>
+</body>
+</html>

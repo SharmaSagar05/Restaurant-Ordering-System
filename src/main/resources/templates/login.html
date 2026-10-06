@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-body">
+<section class="auth-card">
+    <h1>Sagar's Restaurant</h1>
+    <p class="muted">Sign in to order or manage the kitchen.</p>
+    <div th:if="${param.error}" class="flash error">Invalid email or password.</div>
+    <div th:if="${param.logout}" class="flash success">You have been signed out.</div>
+    <div th:if="${successMessage}" class="flash success" th:text="${successMessage}"></div>
+    <form th:action="@{/login}" method="post" class="stack">
+        <label>Email
+            <input type="email" name="username" required autocomplete="username">
+        </label>
+        <label>Password
+            <input type="password" name="password" required autocomplete="current-password">
+        </label>
+        <button type="submit" class="primary">Login</button>
+    </form>
+    <p>Need an account? <a th:href="@{/register}">Register</a></p>
+    <p class="hint">Demo: admin@restaurant.com / Admin@123 · customer@restaurant.com / Customer@123</p>
+</section>
+</body>
+</html>

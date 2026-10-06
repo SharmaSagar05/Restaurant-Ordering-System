@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle} ?: 'Restaurant Ordering System'">Restaurant Ordering System</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/menu}">Sagar's Restaurant</a>
+    <nav class="nav">
+        <a th:href="@{/menu}">Menu</a>
+        <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/order/create}">Order</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/orders}">Orders</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Admin</a>
+    </nav>
+    <div class="session">
+        <span sec:authorize="isAuthenticated()" class="who" sec:authentication="name"></span>
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+            <button type="submit" class="link-button">Logout</button>
+        </form>
+        <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/register}">Register</a>
+    </div>
+</header>
+<main class="page">
+    <div th:if="${successMessage}" class="flash success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="flash error" th:text="${errorMessage}"></div>
+    <div th:replace="${content}"></div>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

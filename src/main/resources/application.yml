@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: restaurant-ordering-system
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:restaurant_ordering}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:Sharma@1381}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+  thymeleaf:
+    cache: false
+
+server:
+  port: ${SERVER_PORT:8081}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:RestaurantOrderingSystemJwtSecretKeyMustBeAtLeast256BitsLong!!}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  seed:
+    enabled: ${APP_SEED_ENABLED:true}
+
+logging:
+  level:
+    com.restaurant.restaurantorderingsystem: INFO

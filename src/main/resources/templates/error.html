@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-body">
+<section class="auth-card">
+    <h1>Something went wrong</h1>
+    <p class="muted" th:text="${status} + ' ' + ${error}">500 Error</p>
+    <a th:href="@{/menu}">Back to menu</a>
+</section>
+</body>
+</html>

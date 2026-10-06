@@ -1,0 +1,44 @@
+# InsForge & AI agent skills
+.insforge/
+.agent/
+.agents/
+.augment/
+.claude/
+.cline/
+.github/copilot*
+.kilocode/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.windsurf/
+
+# Maven / Java
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# Environment
+.env
+.env.local
+application-local.yml
+application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db

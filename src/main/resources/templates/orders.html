@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orders · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: topbar}"></header>
+<main class="page">
+    <div th:replace="~{fragments :: flash}"></div>
+    <h1>Orders</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">1</td>
+            <td th:text="${order.customerName}">Name</td>
+            <td>₹<span th:text="${order.totalPrice}">0</span></td>
+            <td><span class="badge" th:text="${order.status}">PENDING</span></td>
+            <td th:text="${order.paymentStatus}">PENDING</td>
+            <td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}">date</td>
+            <td><a th:href="@{/orders/{id}(id=${order.id})}">View</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(orders)}" class="muted">No orders yet.</p>
+</main>
+</body>
+</html>

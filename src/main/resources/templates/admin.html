@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin · Sagar's Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: topbar}"></header>
+<main class="page">
+    <div th:replace="~{fragments :: flash}"></div>
+    <h1>Admin dashboard</h1>
+    <div class="stats">
+        <article class="stat"><span>Menu items</span><strong th:text="${stats.totalMenuItems}">0</strong></article>
+        <article class="stat"><span>Customers</span><strong th:text="${stats.totalCustomers}">0</strong></article>
+        <article class="stat"><span>Orders</span><strong th:text="${stats.totalOrders}">0</strong></article>
+        <article class="stat"><span>Pending</span><strong th:text="${stats.pendingOrders}">0</strong></article>
+        <article class="stat"><span>Completed</span><strong th:text="${stats.completedOrders}">0</strong></article>
+        <article class="stat"><span>Revenue</span><strong>₹<span th:text="${stats.totalRevenue}">0</span></strong></article>
+    </div>
+    <div class="chart-wrap">
+        <canvas id="dashboard-chart"
+                th:attr="data-pending=${stats.pendingOrders}, data-completed=${stats.completedOrders}, data-total=${stats.totalOrders}"></canvas>
+    </div>
+
+    <div class="split">
+        <section>
+            <div class="section-head">
+                <h2>Menu</h2>
+                <a class="primary" th:href="@{/menu/add}">Add item</a>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Active</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${menuItems}">
+                    <td th:text="${item.name}">Pizza</td>
+                    <td>₹<span th:text="${item.price}">250</span></td>
+                    <td th:text="${item.availableQuantity}">10</td>
+                    <td th:text="${item.active} ? 'Yes' : 'No'">Yes</td>
+                    <td class="actions">
+                        <a th:href="@{/menu/edit/{id}(id=${item.id})}">Edit</a>
+                        <form th:action="@{/menu/{id}/deactivate(id=${item.id})}" method="post">
+                            <button type="submit" class="link-button">Deactivate</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Customers</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.name}">Name</td>
+                    <td th:text="${customer.email}">email</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <h2>Order history</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">1</td>
+            <td th:text="${order.customerName}">Name</td>
+            <td>₹<span th:text="${order.totalPrice}">0</span></td>
+            <td th:text="${order.status}">PENDING</td>
+            <td><a th:href="@{/orders/{id}(id=${order.id})}">Manage</a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
